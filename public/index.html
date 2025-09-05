@@ -12,22 +12,22 @@
       background-color: #f9fafb;
     }
     .navbar {
-      background: #fff;
+      background: #fbfcf9;
       box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
     }
     .navbar-brand {
       font-weight: bold;
-      color: #16a34a !important;
+      color: #082b15 !important;
     }
     .hero {
-      background: #e7f7ed;
+      background: #69cc78fd;
       padding: 40px 20px;
       text-align: center;
       margin-bottom: 30px;
     }
     .hero h1 {
       font-weight: bold;
-      color: #16a34a;
+      color: #091408;
     }
     .card {
       border: none;
@@ -49,7 +49,7 @@
       margin-top: 50px;
     }
     .footer a {
-      color: #16a34a;
+      color: rgb(122, 202, 88);
       text-decoration: none;
     }
   </style>
@@ -98,37 +98,7 @@
   <p class="mt-3"><strong>Total: R$ <span id="total">0.00</span></strong></p>
 </div>-->
 
-<script>
-  let carrinho = [];
-  let total = 0;
 
-  function adicionarAoCarrinho(produto, preco) {
-    carrinho.push({ produto, preco });
-    total += preco;
-    atualizarCarrinho();
-  }
-
-  function atualizarCarrinho() {
-    const lista = document.getElementById("lista-carrinho");
-    lista.innerHTML = "";
-
-    carrinho.forEach((item, index) => {
-      const li = document.createElement("li");
-      li.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center");
-      li.innerHTML = `${item.produto} - R$ ${item.preco.toFixed(2)}
-        <button class="btn btn-danger btn-sm" onclick="removerDoCarrinho(${index})">Remover</button>`;
-      lista.appendChild(li);
-    });
-
-    document.getElementById("total").innerText = total.toFixed(2);
-  }
-
-  function removerDoCarrinho(index) {
-    total -= carrinho[index].preco;
-    carrinho.splice(index, 1);
-    atualizarCarrinho();
-  }
-</script>
 
 <!-- CARRINHO DE COMPRA -->
  
@@ -139,10 +109,45 @@
     <p>Fones de Ouvido Bluetooth, Smartwatch, SmartBand.<br>Tecnologia, Conforto e estilo que você merece.</p>
   </section>
 
-  <!-- PRODUTOS -->
+  <!-- Inicio do teste de caixas de imagens -->
   <div class="container">
     <h3 class="mb-4">Todos os Produtos</h3>
     <div class="row g-4">
+
+      <div class="card-group">
+  <div class="card">
+    <img src="Homem1.png" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Card title</h5>
+      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+      <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+    </div>
+  </div>
+  <div class="card">
+    <img src="SmartBand1.png" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Card title</h5>
+      <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+      <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+    </div>
+  </div>
+  <div class="card">
+    <img src="SmartPreto1.png" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">SmartBand</h5>
+      <p class="card-text">Modelo M6.</p>
+      <h6 class="text-success fw-bold">R$ 50,00</h6>
+       <button 
+                class="btn btn-success w-100" 
+                data-bs-toggle="modal" 
+                data-bs-target="#cartModal"
+                onclick="adicionarAoCarrinho('Fone de Ouvido', 50.00, 'Bluetooth M6.', 'SmartBand2.png')">
+                Adicionar ao Carrinho
+          </button>
+    </div>
+  </div>
+</div>
+<!-- Fim do teste de caixas de imagens -->
 
       <!-- Produto -->
       <div class="col-md-3">
@@ -169,9 +174,66 @@
             <p class="card-text">Modelo M6 .</p>
             <h6 class="text-success fw-bold">R$ 50,00</h6>
             <!--<a href="#" class="btn btn-success w-100">Adicionar ao Carrinho</a>-->
-            <button class="btn btn-success w-100" onclick="adicionarAoCarrinho('SmartBand M6 ', 50.00)">
-            Adicionar ao Carrinho
-            </button>
+           <button 
+                class="btn btn-success w-100" 
+                data-bs-toggle="modal" 
+                data-bs-target="#cartModal"
+                onclick="adicionarAoCarrinho('Fone de Ouvido', 50.00, 'Bluetooth M6.', 'SmartBand2.png')">
+                Adicionar ao Carrinho
+          </button>
+            <!-- MODAL DO CARRINHO -->
+<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- Cabeçalho -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="cartModalLabel">🛒 Carrinho de Compras</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+
+      <!-- Corpo do Modal (onde os itens serão listados) -->
+      <div class="modal-body" id="cartItems">
+        <p class="text-muted">Seu carrinho está vazio.</p>
+      </div>
+
+      <!-- Rodapé -->
+      <div class="modal-footer d-flex flex-column">
+        <h5 class="w-100 text-end">Total: <span id="cartTotal" class="text-success fw-bold">R$ 0,00</span></h5>
+
+        <!-- Botão PIX -->
+        <button id="btnPix" class="btn btn-success w-100 mt-2">Finalizar Compra via PIX</button>
+
+        <!-- QR Code PIX -->
+        <div id="pixArea" class="text-center mt-3" style="display:none;">
+          <h6>Escaneie o QR Code para pagar:</h6>
+          <img id="pixQRCode" src="" alt="QR Code PIX" class="img-fluid rounded shadow">
+          <p class="mt-2"><strong>Chave PIX:</strong> 11940515107</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- MODAL DO CARRINHO -->
+            <div></div>
+
+            <p>
+              <button class="btn btn-style" type="button" data-bs-toggle="collapse" data-bs-target="#descricaoproduto03" aria-expanded="false" aria-controls="descricaoproduto03">
+                Descrição do Produto
+              </button>
+            </p>
+            <div style="min-height: 120px;">
+              <div class="collapse collapse-horizontal" id="descricaoproduto03">
+                <div class="card card-body" style="width: 300px;">
+                  Fone Bluetooth 5.0 com Microfone para Chamadas ALTOMEX - A-W2
+
+                      Conexão: Bluetooth 5.0 (estável e rápida).
+
+                      Função: Chamadas e música (com microfone embutido).   
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -185,9 +247,69 @@
             <p class="card-text">Smartwatch Branco.</p>
             <h6 class="text-success fw-bold">R$ 50,00</h6>
             <!--<a href="#" class="btn btn-success w-100">Adicionar ao Carrinho</a>-->
-            <button class="btn btn-success w-100" onclick="adicionarAoCarrinho('Smartwatch ', 50.00)">
-            Adicionar ao Carrinho
-            </button>
+            <button 
+                class="btn btn-success w-100" 
+                data-bs-toggle="modal" 
+                data-bs-target="#cartModal"
+                onclick="adicionarAoCarrinho('SmartBand', 50.00, 'Branco.', 'SmartBranco1.png')">
+                Adicionar ao Carrinho
+          </button>
+            <!-- MODAL DO CARRINHO -->
+<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- Cabeçalho -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="cartModalLabel">🛒 Carrinho de Compras</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+
+      <!-- Corpo do Modal (onde os itens serão listados) -->
+      <div class="modal-body" id="cartItems">
+        <p class="text-muted">Seu carrinho está vazio.</p>
+      </div>
+
+      <!-- Rodapé -->
+      <div class="modal-footer d-flex flex-column">
+        <h5 class="w-100 text-end">Total: <span id="cartTotal" class="text-success fw-bold">R$ 0,00</span></h5>
+
+        <!-- Botão PIX -->
+        <button id="btnPix" class="btn btn-success w-100 mt-2">Finalizar Compra via PIX</button>
+
+        <!-- QR Code PIX -->
+        <div id="pixArea" class="text-center mt-3" style="display:none;">
+          <h6>Escaneie o QR Code para pagar:</h6>
+          <img id="pixQRCode" src="" alt="QR Code PIX" class="img-fluid rounded shadow">
+          <p class="mt-2"><strong>Chave PIX:</strong> 11940515107</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- MODAL DO CARRINHO -->
+
+            <p>
+              <button class="btn btn-style" type="button" data-bs-toggle="collapse" data-bs-target="#descricaoproduto04" aria-expanded="false" aria-controls="descricaoproduto04">
+                Descrição do Produto
+              </button>
+            </p>
+            <div style="min-height: 120px;">
+              <div class="collapse collapse-horizontal" id="descricaoproduto04">
+                <div class="card card-body" style="width: 300px;">
+                  Fone Bluetooth 5.0 com Microfone para Chamadas ALTOMEX - A-W2
+
+                      Conexão: Bluetooth 5.0 (estável e rápida).
+
+                      Função: Chamadas e música (com microfone embutido).
+
+                     
+                </div>
+              </div>
+            </div>
+
+
           </div>
         </div>
       </div>
@@ -201,9 +323,68 @@
             <p class="card-text">Smartwatch Preto.</p>
             <h6 class="text-success fw-bold">R$ 50,00</h6>
             <!--<a href="#" class="btn btn-success w-100">Adicionar ao Carrinho</a>-->
-            <button class="btn btn-success w-100" onclick="adicionarAoCarrinho('Smartwatch', 50.00)">
-            Adicionar ao Carrinho
-            </button>
+            <button 
+                class="btn btn-success w-100" 
+                data-bs-toggle="modal" 
+                data-bs-target="#cartModal"
+                onclick="adicionarAoCarrinho('SmartBand', 50.00, 'Preto.', 'SmartPreto1.png')">
+                Adicionar ao Carrinho
+          </button>
+            <!-- MODAL DO CARRINHO -->
+<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- Cabeçalho -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="cartModalLabel">🛒 Carrinho de Compras</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+
+      <!-- Corpo do Modal (onde os itens serão listados) -->
+      <div class="modal-body" id="cartItems">
+        <p class="text-muted">Seu carrinho está vazio.</p>
+      </div>
+
+      <!-- Rodapé -->
+      <div class="modal-footer d-flex flex-column">
+        <h5 class="w-100 text-end">Total: <span id="cartTotal" class="text-success fw-bold">R$ 0,00</span></h5>
+
+        <!-- Botão PIX -->
+        <button id="btnPix" class="btn btn-success w-100 mt-2">Finalizar Compra via PIX</button>
+
+        <!-- QR Code PIX -->
+        <div id="pixArea" class="text-center mt-3" style="display:none;">
+          <h6>Escaneie o QR Code para pagar:</h6>
+          <img id="pixQRCode" src="" alt="QR Code PIX" class="img-fluid rounded shadow">
+          <p class="mt-2"><strong>Chave PIX:</strong> 11940515107</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- MODAL DO CARRINHO -->
+
+            <p>
+              <button class="btn btn-style" type="button" data-bs-toggle="collapse" data-bs-target="#descricaoproduto05" aria-expanded="false" aria-controls="descricaoproduto05">
+                Descrição do Produto
+              </button>
+            </p>
+            <div style="min-height: 120px;">
+              <div class="collapse collapse-horizontal" id="descricaoproduto05">
+                <div class="card card-body" style="width: 300px;">
+                  Fone Bluetooth 5.0 com Microfone para Chamadas ALTOMEX - A-W2
+
+                      Conexão: Bluetooth 5.0 (estável e rápida).
+
+                      Função: Chamadas e música (com microfone embutido).
+
+                     
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -217,9 +398,69 @@
             <p class="card-text">Tecnologia,conforto e durável, peça já o seu.</p>
             <h6 class="text-success fw-bold">R$ 50,00</h6>
             <!--<a href="#" class="btn btn-success w-100">Adicionar ao Carrinho</a>-->
-            <button class="btn btn-success w-100" onclick="adicionarAoCarrinho('Smartwatch', 50.00)">
-            Adicionar ao Carrinho
-            </button>
+            <button 
+                class="btn btn-success w-100" 
+                data-bs-toggle="modal" 
+                data-bs-target="#cartModal"
+                onclick="adicionarAoCarrinho('Smartwatch', 50.00, 'Branco.', 'SmartBranco2.png')">
+                Adicionar ao Carrinho
+          </button>
+            <!-- MODAL DO CARRINHO -->
+<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- Cabeçalho -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="cartModalLabel">🛒 Carrinho de Compras</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+
+      <!-- Corpo do Modal (onde os itens serão listados) -->
+      <div class="modal-body" id="cartItems">
+        <p class="text-muted">Seu carrinho está vazio.</p>
+      </div>
+
+      <!-- Rodapé -->
+      <div class="modal-footer d-flex flex-column">
+        <h5 class="w-100 text-end">Total: <span id="cartTotal" class="text-success fw-bold">R$ 0,00</span></h5>
+
+        <!-- Botão PIX -->
+        <button id="btnPix" class="btn btn-success w-100 mt-2">Finalizar Compra via PIX</button>
+
+        <!-- QR Code PIX -->
+        <div id="pixArea" class="text-center mt-3" style="display:none;">
+          <h6>Escaneie o QR Code para pagar:</h6>
+          <img id="pixQRCode" src="" alt="QR Code PIX" class="img-fluid rounded shadow">
+          <p class="mt-2"><strong>Chave PIX:</strong> 11940515107</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- MODAL DO CARRINHO -->
+
+            <p>
+              <button class="btn btn-style" type="button" data-bs-toggle="collapse" data-bs-target="#descricaoproduto06" aria-expanded="false" aria-controls="descricaoproduto06">
+                Descrição do Produto
+              </button>
+            </p>
+            <div style="min-height: 120px;">
+              <div class="collapse collapse-horizontal" id="descricaoproduto06">
+                <div class="card card-body" style="width: 300px;">
+                  Fone Bluetooth 5.0 com Microfone para Chamadas ALTOMEX - A-W2
+
+                      Conexão: Bluetooth 5.0 (estável e rápida).
+
+                      Função: Chamadas e música (com microfone embutido).
+
+                     
+                </div>
+              </div>
+            </div>
+
+
           </div>
         </div>
       </div>
@@ -249,9 +490,69 @@
             <p class="card-text">Qualidade em seus produtos.</p>
             <h6 class="text-success fw-bold">R$ 100,00</h6>
             <!--<a href="#" class="btn btn-success w-100">Adicionar ao Carrinho</a>-->
-            <button class="btn btn-success w-100" onclick="adicionarAoCarrinho('Fone de Ouvido', 100.00)">
-            Adicionar ao Carrinho
-            </button>
+            <button 
+                class="btn btn-success w-100" 
+                data-bs-toggle="modal" 
+                data-bs-target="#cartModal"
+                onclick="adicionarAoCarrinho('Fone de Ouvido', 100.00, 'JBL.', 'JBL1.png')">
+                Adicionar ao Carrinho
+          </button>
+            <!-- MODAL DO CARRINHO -->
+<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- Cabeçalho -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="cartModalLabel">🛒 Carrinho de Compras</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+
+      <!-- Corpo do Modal (onde os itens serão listados) -->
+      <div class="modal-body" id="cartItems">
+        <p class="text-muted">Seu carrinho está vazio.</p>
+      </div>
+
+      <!-- Rodapé -->
+      <div class="modal-footer d-flex flex-column">
+        <h5 class="w-100 text-end">Total: <span id="cartTotal" class="text-success fw-bold">R$ 0,00</span></h5>
+
+        <!-- Botão PIX -->
+        <button id="btnPix" class="btn btn-success w-100 mt-2">Finalizar Compra via PIX</button>
+
+        <!-- QR Code PIX -->
+        <div id="pixArea" class="text-center mt-3" style="display:none;">
+          <h6>Escaneie o QR Code para pagar:</h6>
+          <img id="pixQRCode" src="" alt="QR Code PIX" class="img-fluid rounded shadow">
+          <p class="mt-2"><strong>Chave PIX:</strong> 11940515107</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- MODAL DO CARRINHO -->
+
+            <p>
+              <button class="btn btn-style" type="button" data-bs-toggle="collapse" data-bs-target="#descricaoproduto07" aria-expanded="false" aria-controls="descricaoproduto07">
+                Descrição do Produto
+              </button>
+            </p>
+            <div style="min-height: 120px;">
+              <div class="collapse collapse-horizontal" id="descricaoproduto07">
+                <div class="card card-body" style="width: 300px;">
+                  Fone Bluetooth 5.0 com Microfone para Chamadas ALTOMEX - A-W2
+
+                      Conexão: Bluetooth 5.0 (estável e rápida).
+
+                      Função: Chamadas e música (com microfone embutido).
+
+                     
+                </div>
+              </div>
+            </div>
+
+
           </div>
         </div>
       </div>
@@ -265,9 +566,373 @@
             <p class="card-text">Conforto e Qualidade.</p>
             <h6 class="text-success fw-bold">R$ 100,00</h6>
             <!--<a href="#" class="btn btn-success w-100">Adicionar ao Carrinho</a>-->
-            <button class="btn btn-success w-100" onclick="adicionarAoCarrinho('Fone de Ouvido', 100.00)">
+            <button 
+                class="btn btn-success w-100" 
+                data-bs-toggle="modal" 
+                data-bs-target="#cartModal"
+                onclick="adicionarAoCarrinho('Fone de Ouvido', 100.00, 'JBL.', 'JBL2.png')">
+                Adicionar ao Carrinho
+          </button>
+            <!-- MODAL DO CARRINHO -->
+<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- Cabeçalho -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="cartModalLabel">🛒 Carrinho de Compras</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+
+      <!-- Corpo do Modal (onde os itens serão listados) -->
+      <div class="modal-body" id="cartItems">
+        <p class="text-muted">Seu carrinho está vazio.</p>
+      </div>
+
+      <!-- Rodapé -->
+      <div class="modal-footer d-flex flex-column">
+        <h5 class="w-100 text-end">Total: <span id="cartTotal" class="text-success fw-bold">R$ 0,00</span></h5>
+
+        <!-- Botão PIX -->
+        <button id="btnPix" class="btn btn-success w-100 mt-2">Finalizar Compra via PIX</button>
+
+        <!-- QR Code PIX -->
+        <div id="pixArea" class="text-center mt-3" style="display:none;">
+          <h6>Escaneie o QR Code para pagar:</h6>
+          <img id="pixQRCode" src="" alt="QR Code PIX" class="img-fluid rounded shadow">
+          <p class="mt-2"><strong>Chave PIX:</strong> 11940515107</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- MODAL DO CARRINHO -->
+
+            <p>
+              <button class="btn btn-style" type="button" data-bs-toggle="collapse" data-bs-target="#descricaoproduto08" aria-expanded="false" aria-controls="descricaoproduto08">
+                Descrição do Produto
+              </button>
+            </p>
+            <div style="min-height: 120px;">
+              <div class="collapse collapse-horizontal" id="descricaoproduto08">
+                <div class="card card-body" style="width: 300px;">
+                  Fone Bluetooth 5.0 com Microfone para Chamadas ALTOMEX - A-W2
+
+                      Conexão: Bluetooth 5.0 (estável e rápida).
+
+                      Função: Chamadas e música (com microfone embutido).
+
+                     
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card">
+          <img src="Bluetooth I12.png" alt="Fone de Ouvido Bluetooth">
+          <div class="card-body">
+            <h5 class="card-title">Fone de Ouvido Bluetooth I12</h5>
+            <p class="card-text">Conforto e Qualidade.</p>
+            <h6 class="text-success fw-bold">R$ 50,00</h6>
+            <!--<a href="#" class="btn btn-success w-100">Adicionar ao Carrinho</a>-->
+            <button 
+                class="btn btn-success w-100" 
+                data-bs-toggle="modal" 
+                data-bs-target="#cartModal"
+                onclick="adicionarAoCarrinho('Fone de Ouvido', 50.00, 'Bluetooth I12.', 'Bluetooth I12.png')">
+                Adicionar ao Carrinho
+          </button>
+            <!-- MODAL DO CARRINHO -->
+<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- Cabeçalho -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="cartModalLabel">🛒 Carrinho de Compras</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+
+      <!-- Corpo do Modal (onde os itens serão listados) -->
+      <div class="modal-body" id="cartItems">
+        <p class="text-muted">Seu carrinho está vazio.</p>
+      </div>
+
+      <!-- Rodapé -->
+      <div class="modal-footer d-flex flex-column">
+        <h5 class="w-100 text-end">Total: <span id="cartTotal" class="text-success fw-bold">R$ 0,00</span></h5>
+
+        <!-- Botão PIX -->
+        <button id="btnPix" class="btn btn-success w-100 mt-2">Finalizar Compra via PIX</button>
+
+        <!-- QR Code PIX -->
+        <div id="pixArea" class="text-center mt-3" style="display:none;">
+          <h6>Escaneie o QR Code para pagar:</h6>
+          <img id="pixQRCode" src="" alt="QR Code PIX" class="img-fluid rounded shadow">
+          <p class="mt-2"><strong>Chave PIX:</strong> 11940515107</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- MODAL DO CARRINHO -->
+
+            <p>
+              <button class="btn btn-style" type="button" data-bs-toggle="collapse" data-bs-target="#descricaoproduto09" aria-expanded="false" aria-controls="descricaoproduto09">
+                Descrição do Produto
+              </button>
+            </p>
+            <div style="min-height: 120px;">
+              <div class="collapse collapse-horizontal" id="descricaoproduto09">
+                <div class="card card-body" style="width: 300px;">
+                  Fone Bluetooth 5.0 com Microfone para Chamadas ALTOMEX - A-W2
+
+                      Conexão: Bluetooth 5.0 (estável e rápida).
+
+                      Função: Chamadas e música (com microfone embutido).
+
+                     
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card">
+          <img src="Bluetooth_TWS_ Starmega.webp" alt="Fone de Ouvido Bluetooth">
+          <div class="card-body">
+            <h5 class="card-title">Fone de Ouvido Bluetooth TWS Starmega</h5>
+            <p class="card-text">Conforto e Qualidade.</p>
+            <h6 class="text-success fw-bold">R$ 50,00</h6>
+            <!--<a href="#" class="btn btn-success w-100">Adicionar ao Carrinho</a>-->
+            <button 
+                class="btn btn-success w-100" 
+                data-bs-toggle="modal" 
+                data-bs-target="#cartModal"
+                onclick="adicionarAoCarrinho('Fone de Ouvido ', 50.00, 'Bluetooth TWS.', 'Bluetooth_TWS_ Starmega.webp')">
+                Adicionar ao Carrinho
+          </button>
+            <!-- MODAL DO CARRINHO -->
+<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- Cabeçalho -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="cartModalLabel">🛒 Carrinho de Compras</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+
+      <!-- Corpo do Modal (onde os itens serão listados) -->
+      <div class="modal-body" id="cartItems">
+        <p class="text-muted">Seu carrinho está vazio.</p>
+      </div>
+
+      <!-- Rodapé -->
+      <div class="modal-footer d-flex flex-column">
+        <h5 class="w-100 text-end">Total: <span id="cartTotal" class="text-success fw-bold">R$ 0,00</span></h5>
+
+        <!-- Botão PIX -->
+        <button id="btnPix" class="btn btn-success w-100 mt-2">Finalizar Compra via PIX</button>
+
+        <!-- QR Code PIX -->
+        <div id="pixArea" class="text-center mt-3" style="display:none;">
+          <h6>Escaneie o QR Code para pagar:</h6>
+          <img id="pixQRCode" src="" alt="QR Code PIX" class="img-fluid rounded shadow">
+          <p class="mt-2"><strong>Chave PIX:</strong> 11940515107</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- MODAL DO CARRINHO -->
+
+            <p>
+              <button class="btn btn-style" type="button" data-bs-toggle="collapse" data-bs-target="#descricaoproduto10" aria-expanded="false" aria-controls="descricaoproduto10">
+                Descrição do Produto
+              </button>
+            </p>
+            <div style="min-height: 120px;">
+              <div class="collapse collapse-horizontal" id="descricaoproduto10">
+                <div class="card card-body" style="width: 300px;">
+                  Fone Bluetooth 5.0 com Microfone para Chamadas ALTOMEX - A-W2
+
+                      Conexão: Bluetooth 5.0 (estável e rápida).
+
+                      Função: Chamadas e música (com microfone embutido).
+
+                     
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card">
+          <img src="Bluetooth_Altomex3.png" alt="Fone Ouvido">
+          <div class="card-body">
+            <h5 class="card-title">Fone de Ouvido Bluetooth ALTOMEX</h5>
+            <p class="card-text">Conforto e Qualidade.</p>
+            <h6 class="text-success fw-bold">R$ 50,00</h6>
+            <!--<a href="#" class="btn btn-success w-100">Adicionar ao Carrinho</a>-->
+            <button 
+                class="btn btn-success w-100" 
+                data-bs-toggle="modal" 
+                data-bs-target="#cartModal"
+                onclick="adicionarAoCarrinho('Fone de Ouvido', 50.00, 'Bluetooth Altomex.', 'Bluetooth_Altomex3.png')">
+                Adicionar ao Carrinho
+          </button>
+            <!-- MODAL DO CARRINHO -->
+<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- Cabeçalho -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="cartModalLabel">🛒 Carrinho de Compras</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+
+      <!-- Corpo do Modal (onde os itens serão listados) -->
+      <div class="modal-body" id="cartItems">
+        <p class="text-muted">Seu carrinho está vazio.</p>
+      </div>
+
+      <!-- Rodapé -->
+      <div class="modal-footer d-flex flex-column">
+        <h5 class="w-100 text-end">Total: <span id="cartTotal" class="text-success fw-bold">R$ 0,00</span></h5>
+
+        <!-- Botão PIX -->
+        <button id="btnPix" class="btn btn-success w-100 mt-2">Finalizar Compra via PIX</button>
+
+        <!-- QR Code PIX -->
+        <div id="pixArea" class="text-center mt-3" style="display:none;">
+          <h6>Escaneie o QR Code para pagar:</h6>
+          <img id="pixQRCode" src="" alt="QR Code PIX" class="img-fluid rounded shadow">
+          <p class="mt-2"><strong>Chave PIX:</strong> 11940515107</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- MODAL DO CARRINHO -->
+
+            <p>
+              <button class="btn btn-style" type="button" data-bs-toggle="collapse" data-bs-target="#descricaoproduto11" aria-expanded="false" aria-controls="descricaoproduto11">
+                Descrição do Produto
+              </button>
+            </p>
+            <div style="min-height: 120px;">
+              <div class="collapse collapse-horizontal" id="descricaoproduto11">
+                <div class="card card-body" style="width: 300px;">
+                  Fone Bluetooth 5.0 com Microfone para Chamadas ALTOMEX - A-W2
+
+                      Conexão: Bluetooth 5.0 (estável e rápida).
+
+                      Função: Chamadas e música (com microfone embutido).
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card">
+          <img src="Bluetooth_ALTOMEX2.png" alt="Fone de Ouvido">
+          <div class="card-body">
+            <h5 class="card-title">Fone de Ouvido Bluetooth-Altomex</h5>
+            <p class="card-text">Conforto e Qualidade.</p>
+            <h6 class="text-success fw-bold">R$ 50,00</h6>
+            <!--<a href="#" class="btn btn-success w-100">Adicionar ao Carrinho</a>-->
+            <!--<button class="btn btn-success w-100" onclick="adicionarAoCarrinho('Fone de Ouvido Altomex', 50.00)">
             Adicionar ao Carrinho
-            </button>
+            </button>-->
+            <button 
+                class="btn btn-success w-100" 
+                data-bs-toggle="modal" 
+                data-bs-target="#cartModal"
+                onclick="adicionarAoCarrinho('Fone de Ouvido Bluetooth', 50.00, 'Conforto e Qualidade.', 'Bluetooth_ALTOMEX2.png')">
+                Adicionar ao Carrinho
+          </button>
+
+            <!-- MODAL DO CARRINHO -->
+<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- Cabeçalho -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="cartModalLabel">🛒 Carrinho de Compras</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+
+      <!-- Corpo do Modal (onde os itens serão listados) -->
+      <div class="modal-body" id="cartItems">
+        <p class="text-muted">Seu carrinho está vazio.</p>
+      </div>
+
+      <!-- Rodapé -->
+      <div class="modal-footer d-flex flex-column">
+        <h5 class="w-100 text-end">Total: <span id="cartTotal" class="text-success fw-bold">R$ 0,00</span></h5>
+
+        <!-- Botão PIX -->
+        <button id="btnPix" class="btn btn-success w-100 mt-2">Finalizar Compra via PIX</button>
+
+        <!-- QR Code PIX -->
+        <div id="pixArea" class="text-center mt-3" style="display:none;">
+          <h6>Escaneie o QR Code para pagar:</h6>
+          <img id="pixQRCode" src="" alt="QR Code PIX" class="img-fluid rounded shadow">
+          <p class="mt-2"><strong>Chave PIX:</strong> 11940515107</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- MODAL DO CARRINHO -->
+             <p>
+              <button class="btn btn-style" type="button" data-bs-toggle="collapse" data-bs-target="#descricaoproduto12" aria-expanded="false" aria-controls="descricaoproduto12">
+                Descrição do Produto
+              </button>
+
+            </p>
+            <div style="min-height: 120px;">
+              <div class="collapse collapse-horizontal" id="descricaoproduto12">
+                <div class="card card-body" style="width: 300px;">
+                  Fone Bluetooth 5.0 com Microfone para Chamadas ALTOMEX - A-W2
+
+                      Conexão: Bluetooth 5.0 (estável e rápida).
+
+                      Função: Chamadas e música (com microfone embutido).
+
+                      Design: Compacto, leve e confortável para uso diário.
+
+                      Autonomia: Bateria recarregável com duração média (varia pelo uso).
+
+                      Compatibilidade: Funciona com celulares Android, iOS e outros dispositivos Bluetooth.
+
+                      Uso prático: Botões para atender/encerrar chamadas e controlar músicas.
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -276,6 +941,147 @@
 
     </div>
   </div>
+
+ <script>
+  let carrinho = [];
+  let total = 0;
+
+  function adicionarAoCarrinho(produto, preco, descricao, img) {
+    carrinho.push({ produto, preco, descricao, img });
+    total += preco;
+    atualizarCarrinho();
+  }
+
+  function atualizarCarrinho() {
+    const cartItems = document.getElementById("cartItems");
+    const cartTotal = document.getElementById("cartTotal");
+
+    cartItems.innerHTML = "";
+
+    if (carrinho.length === 0) {
+      cartItems.innerHTML = '<p class="text-muted">Seu carrinho está vazio.</p>';
+    } else {
+      carrinho.forEach((item, index) => {
+        const itemHTML = `
+          <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+            <div class="d-flex align-items-center">
+              <img src="${item.img}" alt="${item.produto}" width="50" class="me-2">
+              <div>
+                <strong>${item.produto}</strong><br>
+                <small>${item.descricao}</small>
+              </div>
+            </div>
+            <div class="text-success fw-bold">R$ ${item.preco.toFixed(2).replace('.', ',')}</div>
+            <button class="btn btn-danger btn-sm ms-2" onclick="removerDoCarrinho(${index})">Remover</button>
+          </div>
+        `;
+        cartItems.insertAdjacentHTML("beforeend", itemHTML);
+      });
+    }
+
+    // Atualiza total
+    cartTotal.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+  }
+
+  function removerDoCarrinho(index) {
+    total -= carrinho[index].preco;
+    carrinho.splice(index, 1);
+    atualizarCarrinho();
+  }
+
+  // =====================
+  // FUNÇÕES DO PIX
+  // =====================
+
+  // Função para calcular o CRC16 exigido pelo padrão PIX
+  function calcularCRC16(payload) {
+    let polinomio = 0x1021;
+    let resultado = 0xFFFF;
+
+    for (let offset = 0; offset < payload.length; offset++) {
+      resultado ^= (payload.charCodeAt(offset) << 8);
+      for (let bitwise = 0; bitwise < 8; bitwise++) {
+        if ((resultado <<= 1) & 0x10000) resultado ^= polinomio;
+        resultado &= 0xFFFF;
+      }
+    }
+
+    return resultado.toString(16).toUpperCase().padStart(4, '0');
+  }
+
+  // Função para montar o payload PIX dinâmico
+  function gerarPayloadPix(chave, nome, cidade, valor) {
+    const gui = "BR.GOV.BCB.PIX";
+    
+    // 00 = Payload Format Indicator
+    let payload = "000201";
+
+    // 26 = Merchant Account Information (GUI + chave)
+    let merchantAccount = `0014${gui}01${String(chave.length).padStart(2,'0')}${chave}`;
+    payload += `26${String(merchantAccount.length).padStart(2,'0')}${merchantAccount}`;
+
+    // 52 = Merchant Category Code (0000 = default)
+    payload += "52040000";
+
+    // 53 = Transaction Currency (986 = Real)
+    payload += "5303986";
+
+    // 54 = Valor
+    if (valor > 0) {
+      let valorStr = valor.toFixed(2);
+      payload += `54${String(valorStr.length).padStart(2,'0')}${valorStr}`;
+    }
+
+    // 58 = País
+    payload += "5802BR";
+
+    // 59 = Nome recebedor
+    payload += `59${String(nome.length).padStart(2,'0')}${nome}`;
+
+    // 60 = Cidade
+    payload += `60${String(cidade.length).padStart(2,'0')}${cidade}`;
+
+    // 62 = Dados adicionais (pode ser identificador)
+    let adicionais = "0503***";
+    payload += `62${String(adicionais.length).padStart(2,'0')}${adicionais}`;
+
+    // 63 = CRC (calculado no final)
+    payload += "6304";
+
+    // Calcula o CRC16
+    let crc = calcularCRC16(payload);
+
+    return payload + crc;
+  }
+
+  // Integração com botão PIX
+  const chavePix = "11940515107"; // 🔑 sua chave PIX
+  const nomeRecebedor = "LOJINHA DLUXE"; // em caixa alta, sem acentos
+  const cidade = "SAO PAULO";
+  const btnPix = document.getElementById("btnPix");
+  const pixArea = document.getElementById("pixArea");
+  const pixQRCode = document.getElementById("pixQRCode");
+
+  btnPix.addEventListener("click", function () {
+    if (total <= 0) {
+      alert("Seu carrinho está vazio!");
+      return;
+    }
+
+    const valor = total;
+
+    // Gera payload PIX válido
+    const payload = gerarPayloadPix(chavePix, nomeRecebedor, cidade, valor);
+
+    // Gera QR Code com Google Charts
+    pixQRCode.src = `https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js=${encodeURIComponent(payload)}`;
+    pixArea.style.display = "block";
+
+    
+
+    console.log("Payload PIX:", payload); // debug
+  });
+  </script>
 
   <!-- FOOTER -->
   <footer class="footer">
@@ -294,6 +1100,20 @@
             <li><a href="#">Diversos</a></li>
           </ul>
         </div>
+        <div class="row mt-3">
+            <!-- Formas de pagamento -->
+            <div class="col-md-6">
+              <h6>Formas de Pagamento</h6>
+              <p>💳 Pagamento disponível via <strong>PIX</strong></p>
+            </div>
+
+            <!-- Formas de entrega -->
+            <div class="col-md-6">
+              <h6>Formas de Entrega</h6>
+              <p>📦 Retirada pessoalmente</p>
+              <p>🚚 Envio via Sedex ou Correios</p>
+            </div>
+          </div>
         <div class="col-md-4">
           <h5>Contato</h5>
           <p>Email: lojarstechnology@gmail.com</p>
