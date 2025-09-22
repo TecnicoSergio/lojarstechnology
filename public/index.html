@@ -283,7 +283,7 @@
                             <h5 class="card-title">Fone de Ouvido I12</h5>
                             <p class="card-text">Fone de Ouvido I12.</p>
                             <h6 class="text-success fw-bold">R$ 50,00</h6>
-                            <button class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#quantidadeModal" data-produto="Fone de Ouvido Bluetooth" data-preco="50.00" data-descricao="Qualidade e tecnologia." data-img="Bluetooth_I12.png" data-sizes="" data-colors="Preto"
+                            <button class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#quantidadeModal" data-produto="Fone de Ouvido Bluetooth" data-preco="50.00" data-descricao="Qualidade e tecnologia." data-img="Bluetooth I12.png" data-sizes="" data-colors="Preto"
                                 data-default-size="" data-default-color="Preto">
   Adicionar ao Carrinho
 </button>>
@@ -303,7 +303,7 @@
                             <h5 class="card-title">Fone TWS- Starmega</h5>
                             <p class="card-text">Fone de Ouvido Bluetooth TWS Starmega.</p>
                             <h6 class="text-success fw-bold">R$ 50,00</h6>
-                            <button class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#quantidadeModal" data-produto="Fone de Ouvido Bluetooth" data-preco="50.00" data-descricao="Qualidade e tecnologia." data-img="Bluetooth_TWS_Starmega.webp" data-sizes="" data-colors="Preto"
+                            <button class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#quantidadeModal" data-produto="Fone de Ouvido Bluetooth" data-preco="50.00" data-descricao="Qualidade e tecnologia." data-img="Bluetooth_TWS_ Starmega.webp" data-sizes="" data-colors="Preto"
                                 data-default-size="" data-default-color="Preto">
   Adicionar ao Carrinho
 </button>
@@ -491,7 +491,7 @@
                         <div>
                             <strong>${item.produto}</strong><br>
                             <small>${item.descricao}</small><br>
-                            <small>Tam: ${item.tamanho} | Cor: ${item.cor} | Qtd: ${item.qtd}</small>
+                            <small>Qtd: ${item.qtd}</small>
                         </div>
                     </div>
                     <div class="text-success fw-bold">R$ ${item.total.toFixed(2).replace('.', ',')}</div>
@@ -554,7 +554,7 @@
                 if (inputQtd) inputQtd.value = 1;
                 atualizarPreco();
 
-                const selectSize = document.getElementById("tamanhoProduto");
+                const selectSize = document.getElementById("");
                 if (selectSize) {
                     selectSize.innerHTML = "";
                     if (sizes.length > 0) {
@@ -574,7 +574,7 @@
                     }
                 }
 
-                const selectColor = document.getElementById("corProduto");
+                const selectColor = document.getElementById("");
                 if (selectColor) {
                     selectColor.innerHTML = "";
                     if (colors.length > 0) {
@@ -683,7 +683,7 @@
                     <div>
                         <strong>${item.produto}</strong><br>
                         <small>${item.descricao}</small><br>
-                        <small>Tam: ${item.tamanho} | Cor: ${item.cor} | Qtd: ${item.qtd}</small>
+                        <small>Qtd: ${item.qtd}</small>
                     </div>
                 </div>
                 <div class="text-success fw-bold">R$ ${item.total.toFixed(2).replace('.', ',')}</div>
